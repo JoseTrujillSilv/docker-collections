@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  mi-contenedor:
+    image: ubuntu:latest
+    container_name: mi-contenedor-ubuntu
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ./mi-directorio:/mi-directorio-en-contenedor
+    working_dir: /mi-directorio
+    command: ["/bin/bash"]

@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  bitwarden:
+    image: bitwarden/self-host:2023.10.1-beta
+    container_name: bitwarden_unified
+    restart: always
+    depends_on:
+      - bitwarden-unified-db
+    env_file:
+      - settings.env
+    ports:
+      - "8888:8080"
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/bitwarden-unified/data:/etc/bitwarden
+
+  bitwarden-unified-db:
+    image: postgres:alpine3.18
+    container_name: bitwarden_unified_db
+    restart: always
+    environment:
+      POSTGRES_USER: "bitwarden"
+      POSTGRES_PASSWORD: "Secure_MariaDB_Password1"
+      POSTGRES_DB: "bitwarden_vault"    
+    volumes:
+      - ${DOCKER_VOLUME_STORAGE:-/mnt/docker-volumes}/bitwarden-unified/psql:/var/lib/postgresql/data
